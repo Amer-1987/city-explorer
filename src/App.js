@@ -3,8 +3,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-// import Header from './Header';
-// import Footer from './Footer';
+
 import './App.css';
 
 class App extends React.Component {
@@ -17,6 +16,7 @@ class App extends React.Component {
       displayName: '',
       mapStatus: false,
       showError: false,
+      key:""
     }
   }
 
@@ -24,9 +24,11 @@ class App extends React.Component {
   getData = async (event) => {
     event.preventDefault();
     let cityName = event.target.cityName.value;
-    const key = 'pk.faf2850435d2e009e64aef4bffa3dead'
-    const URL = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${cityName}&format=json`
+    const key =process.env.REACT_APP_KEY;
+    const URL = `https://eu1.locationiq.com/v1/search.php?key=${key}&q=${cityName}&format=json`;
 
+    console.log(key);
+    
     try {
       let respResult = await axios.get(URL);
       console.log(respResult);
@@ -65,7 +67,7 @@ class App extends React.Component {
       
 
 
-        {this.state.mapStatus && <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.faf2850435d2e009e64aef4bffa3dead&center=${this.state.lat},${this.state.lon}&zoom=<zoom>&size=<width>x<height>&format=JSON&maptype=<MapType>&markers=icon:<icon>|${this.state.lat},${this.state.lon}&markers=icon:<icon>|${this.state.lat},${this.state.lon}`} />}
+        {this.state.mapStatus && <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_KEY}&center=${this.state.lat},${this.state.lon}&zoom=<zoom>&size=<width>x<height>&format=JSON&maptype=<MapType>&markers=icon:<icon>|${this.state.lat},${this.state.lon}&markers=icon:<icon>|${this.state.lat},${this.state.lon}`} alt=""/>}
 
         {this.state.showError && <p>Error, sorry for that</p>}
 
